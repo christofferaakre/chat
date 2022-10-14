@@ -16,7 +16,7 @@ export default function MessageInput(): ReactElement {
           messageId: uuidv4(),
           roomId: 'my room',
           author: 'chris',
-          timestamp: Date.now().toString(),
+          timestamp: Date.now(),
           content: currentMessage
       }
 

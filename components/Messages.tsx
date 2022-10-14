@@ -5,14 +5,16 @@ import Message from '../messages/Message';
 import {collection, getDocs} from 'firebase/firestore';
 import {db} from '../firebase/index';
 
+import styles from './Messages.module.css';
+
 function timestampToDate(timestamp: number): string {
     return new Date(timestamp).toLocaleString(undefined);
 }
 
 function Message(props: Message): ReactElement {
-    return <div>
+    return <li>
     [{timestampToDate(props.timestamp)}] {props.author}: {props.content}
-    </div>
+    </li>
 }
 
 export default function Messages(): ReactElement {
@@ -27,7 +29,7 @@ export default function Messages(): ReactElement {
 
     }, []);
 
-    return <div>
+    return <ul className={styles.list}>
     {messages.map(message => <Message key={message.messageId} {...message}/>)}
-    </div>
+    </ul>
 }

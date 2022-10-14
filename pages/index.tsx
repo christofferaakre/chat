@@ -2,39 +2,10 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
 
-import axios from 'axios';
-
-import {API_URL} from '../shared/utils';
-import { ChangeEvent, KeyboardEvent, useState } from 'react';
-
-import Message from '../messages/Message';
-
-import {v4 as uuidv4} from 'uuid';
+import MessageInput from '../components/MessageInput';
+import Messages from '../components/Messages';
 
 const Home: NextPage = () => {
-  const [currentMessage, setCurrentMessage] = useState('');
-
-  async function handleSubmit(e: SubmitEvent) {
-      e.preventDefault();
-      console.log('clicked');
-      console.log(API_URL);
-
-      const message: Message = {
-          messageId: uuidv4(),
-          roomId: 'my room',
-          author: 'chris',
-          timestamp: Date.now().toString(),
-          content: currentMessage
-      }
-
-      const data = (await axios.post(API_URL + "/hello", message)).data;
-
-  }
-
-  function handleChange(e: ChangeEvent<HTMLInputElement>) {
-    setCurrentMessage(e.target.value);
-  }
-
 
 
   return (
@@ -45,11 +16,8 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-        <form onSubmit={handleSubmit}>
-        <input name="message" onChange={handleChange} value={currentMessage} placeholder="Type a message.." />
-        <button>Click me</button>
-        </form>
-
+      <Messages />
+      <MessageInput />
 
       </div>
 )

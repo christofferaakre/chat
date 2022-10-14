@@ -3,6 +3,8 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import { db } from '../../firebase/index';
 import Message from '../../messages/Message';
 
+import {doc, setDoc} from 'firebase/firestore';
+
 
 interface ApiRequest<T> extends NextApiRequest {
     body: T
@@ -14,8 +16,7 @@ export default async function handler(
 ) {
 
     const message = req.body;
-    const docRef = db.collection(message.roomId).doc(message.messageId);
-    await docRef.set(message);
+    await setDoc(doc(db, message.roomId, message.messageId), message);
 
     const response = {data: "Pushed message to firestore"};
 

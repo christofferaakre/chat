@@ -1,26 +1,24 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
-import {db} from '../../firebase/index';
+import { db } from '../../firebase/index';
+import Message from '../../messages/Message';
 
-type Data = {
-  name: string
+
+interface ApiRequest<T> extends NextApiRequest {
+    body: T
 }
 
 export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse<Data>
+    req: ApiRequest<Message>,
+    res: NextApiResponse
 ) {
 
-  const docRef = db.collection('test').doc('new-dic');
+    const message = req.body;
+    const docRef = db.collection(message.roomId).doc(message.messageId);
+    await docRef.set(message);
 
-  console.log(req.body.data);
+    const response = {data: "Pushed message to firestore"};
 
-  await docRef.set({
-      first: 'Ada',
-      last: 'Lovelace',
-      born: 1815
-  });
-
-  res.status(200).json({ name: 'John Doe' })
+    res.status(200).json(response);
 
 }

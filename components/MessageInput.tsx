@@ -4,7 +4,11 @@ import Message from "../messages/Message";
 import { API_URL } from "../shared/utils";
 import {v4 as uuidv4} from 'uuid';
 
-export default function MessageInput(): ReactElement {
+interface MessageInputProps {
+    username: string;
+}
+
+export default function MessageInput(props: MessageInputProps): ReactElement {
   const [currentMessage, setCurrentMessage] = useState('');
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
@@ -15,10 +19,11 @@ export default function MessageInput(): ReactElement {
       const message: Message = {
           messageId: uuidv4(),
           roomId: 'my room',
-          author: 'chris',
+          author: props.username,
           timestamp: Date.now(),
           content: currentMessage
       }
+      setCurrentMessage('');
 
       await axios.post(API_URL + "/hello", message);
 

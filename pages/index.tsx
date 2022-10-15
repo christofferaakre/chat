@@ -4,10 +4,9 @@ import styles from '../styles/Home.module.css'
 
 import MessageInput from '../components/MessageInput';
 import Messages from '../components/Messages';
+import { UserInputs } from '../components/UserInputs';
 
 const Home: NextPage = () => {
-
-
   return (
     <div className={styles.container}>
       <Head>
@@ -17,7 +16,7 @@ const Home: NextPage = () => {
       </Head>
 
       <Messages />
-      <MessageInput />
+      <UserInputs />
 
       </div>
 )

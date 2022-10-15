@@ -18,14 +18,14 @@ function Message(props: Message): ReactElement {
 }
 
 interface MessagesProps {
-    roomId: number;
+    roomId: string;
 }
 
 export default function Messages(props: MessagesProps): ReactElement {
     const [messages, setMessages] = useState([] as Message[]);
     let q: Query | undefined;
     if (props.roomId)
-        q = query(collection(db, props.roomId.toString()), orderBy("timestamp"));
+        q = query(collection(db, "rooms", props.roomId.toString(), "messages"), orderBy("timestamp"));
 
     useEffect(() => {
         async function getMessages() {

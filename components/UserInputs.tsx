@@ -2,7 +2,7 @@ import { ChangeEvent, ReactElement, useState } from "react"
 import MessageInput from "./MessageInput"
 
 interface UserInputsProps {
-    roomId: number,
+    roomId: string,
 }
 
 export function UserInputs(props: UserInputsProps): ReactElement {

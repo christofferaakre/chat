@@ -16,7 +16,8 @@ export default async function handler(
 ) {
 
     const message = req.body;
-    await setDoc(doc(db, message.roomId, message.messageId), message);
+    const q = doc(db, "rooms", message.roomId, "messages", message.messageId)
+    await setDoc(q, message);
 
     const response = {data: "Pushed message to firestore"};
 

@@ -1,8 +1,11 @@
 import { ChangeEvent, ReactElement, useState } from "react"
 import MessageInput from "./MessageInput"
 
+interface UserInputsProps {
+    roomId: number,
+}
 
-export function UserInputs(): ReactElement {
+export function UserInputs(props: UserInputsProps): ReactElement {
     const [username, setUsername] = useState("");
     function handleNameChange(e: ChangeEvent<HTMLInputElement>) {
         setUsername(e.target.value);
@@ -10,6 +13,6 @@ export function UserInputs(): ReactElement {
 
     return <>
       <input value={username} onChange={handleNameChange} placeholder="Pick a nickname.." />
-      <MessageInput username={username}/>
+      <MessageInput roomId={props.roomId} username={username}/>
     </>
 }

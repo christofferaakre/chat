@@ -2,7 +2,7 @@ import { ReactElement, useEffect, useState } from "react"
 
 import Message from '../messages/Message';
 
-import {collection, doc, getDocs, onSnapshot, orderBy, query} from 'firebase/firestore';
+import {collection, doc, getDocs, onSnapshot, orderBy, Query, query} from 'firebase/firestore';
 import {db} from '../firebase/index';
 
 import styles from './Messages.module.css';
@@ -17,28 +17,36 @@ function Message(props: Message): ReactElement {
     </li>
 }
 
-
-const q = query(collection(db, "my room"), orderBy("timestamp"));
-
-async function getMessages(): Promise<Message[]> {
-        const querySnapshot = await getDocs(q);
-        return querySnapshot.docs.map(doc => doc.data() as Message);
+interface MessagesProps {
+    roomId: number;
 }
 
-export default function Messages(): ReactElement {
+export default function Messages(props: MessagesProps): ReactElement {
     const [messages, setMessages] = useState([] as Message[]);
+    let q: Query | undefined;
+    if (props.roomId)
+        q = query(collection(db, props.roomId.toString()), orderBy("timestamp"));
 
     useEffect(() => {
-        (async () => {
-        setMessages(await getMessages());
-        })();
+        async function getMessages() {
+                if (q) {
+                const querySnapshot = await getDocs(q);
+                setMessages(querySnapshot.docs.map(doc => doc.data() as Message));
+                }
+        }
+
+        if (q) {
+        getMessages();
 
         const unsub = onSnapshot(q, doc => {
             setMessages(doc.docs.map(doc => doc.data() as Message))
         });
 
+        return unsub;
+        }
 
-    }, []);
+
+    }, [q]);
 
     return <ul className={styles.list}>
     {messages.map(message => <Message key={message.messageId} {...message}/>)}

@@ -6,7 +6,9 @@ import {v4 as uuidv4} from 'uuid';
 
 interface MessageInputProps {
     username: string;
+    roomId: string;
 }
+
 
 export default function MessageInput(props: MessageInputProps): ReactElement {
   const [currentMessage, setCurrentMessage] = useState('');
@@ -18,7 +20,7 @@ export default function MessageInput(props: MessageInputProps): ReactElement {
 
       const message: Message = {
           messageId: uuidv4(),
-          roomId: 'my room',
+          roomId: props.roomId,
           author: props.username,
           timestamp: Date.now(),
           content: currentMessage

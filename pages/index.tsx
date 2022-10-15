@@ -7,6 +7,8 @@ import { UserInputs } from '../components/UserInputs';
 
 import {CreateRoomForm} from '../components/CreateRoomForm';
 
+import {Rooms} from '../components/Rooms';
+
 const Home: NextPage = () => {
   return (
     <div className={styles.container}>
@@ -16,6 +18,7 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
+        <Rooms />
         <CreateRoomForm />
 
       </div>

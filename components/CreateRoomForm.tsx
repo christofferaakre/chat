@@ -4,11 +4,8 @@ import { ChangeEvent, FormEvent, ReactElement, useState } from "react"
 
 import {db} from '../firebase';
 import Message from "../messages/Message";
+import { Room } from "./Rooms";
 
-interface Room {
-    roomId: string,
-    messages: Message[],
-}
 
 export function CreateRoomForm(): ReactElement {
     const [roomName, setRoomName] = useState("");
@@ -23,7 +20,7 @@ export function CreateRoomForm(): ReactElement {
         e.preventDefault();
 
         const q = doc(db, "rooms", roomName);
-        const room = {
+        const room: Room = {
             roomId: roomName,
             messages: []
         };
